@@ -54,8 +54,7 @@ def get_lst_xml_url():
 def ON_pkg_name(content):
     #global report_xml
     report_xml = XMLReport()
-    print("ON PKG NAME")
-    print(report_xml.to_xml())
+
     report_xml.set_pkg_name(content)
 
 
@@ -72,7 +71,7 @@ def load_check_package(package_name):
     module = importlib.util.module_from_spec(check_module_spec)
     check_module_spec.loader.exec_module(module)
     check_module = module
-    print(dir(module))
+
 
 
 

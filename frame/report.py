@@ -37,11 +37,7 @@ class XMLReport(object):    #Singleton
         self.pkg_name = name
         pkg_node = self.mk_node('package',name)
         root = self.get_doc_root()
-        print("XXXX")
-        print(root.toxml())
-
         self.get_doc_root().appendChild(pkg_node)
-        print(root.toxml())
 
     """
     def __init__(self):
