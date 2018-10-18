@@ -1,0 +1,22 @@
+#yaml
+engine:
+ version: 1.0
+ Ruby: ruby-lang.org
+ Python: python.org
+ Perl: use.perl.org
+
+pkg_info:
+  name: demo1
+  version: 0.2
+  description: this is 测试包
+
+items:
+  -group: 内存检查
+    -- item 内存占用检查
+        type: boolean
+      value: 50
+      desc:   内存占用太高会导致系统性能变慢
+
+  - item: 硬盘使用情况
+    type: info
+    value: 50
