@@ -19,14 +19,15 @@ def check_mem_swap_usage():
 def check_mem_usage():
     msg=""
     cmd = """vmstat|sed -n '3p'|awk '{print $3" "t$4" " $5" "$6}' """
-    ret = send_cmd(cmd)
-    lst_ret= ret.split(" ")
-    swap = int(ret[0])
+    out,err = client.send_cmd(cmd)
+    print("FFFDDD")
+    print(out)
+    ret= str(out, encoding='utf-8').strip().split(" ")
+    swap = ret[0]
     free = int(ret[1])
     buf = int(ret[2])
-    cache = int(ret[3])
+    cache = ret[3]
 
-    msg = "swap:%d,free:%d,buf:%d,cache:%d"%(swap,free,buf,cache)
-    if swap > 0:
-        return (False,msg)
+    msg = "swap:%s,free:%d,buf:%d,cache:%s"%(swap,free,buf,cache)
+    return False,msg
 

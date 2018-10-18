@@ -31,5 +31,5 @@ def check_mem_usage():
 
     msg = "swap:%d,free:%d,buf:%d,cache:%d"%(swap,free,buf,cache)
     if swap > 0:
-        return (False,msg)
+        return False,msg
 

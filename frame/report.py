@@ -14,7 +14,10 @@ class XMLReport(object):    #Singleton
 
     def get_pkg_name(self):
         node = self.get_doc_root().getElementsByTagName('package')[0]
-        name = node.childNodes[0].data
+        name_node=node.getElementsByTagName('name')[0]
+        name=name_node.childNodes[0].data
+        #print(name)
+
         return name
 
     def clear(self):
@@ -33,11 +36,29 @@ class XMLReport(object):    #Singleton
         root.setAttribute('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance")
         self.doc.appendChild(root)
 
+    def get_last_group_node(self):
+        root = self.get_doc_root()
+        lst_group_node = root.getElementsByTagName("group")
+        cnt = len(lst_group_node)
+
+        if cnt == 0:
+            return None
+        else:
+            return lst_group_node[cnt-1]
+
     def set_pkg_name(self,name):
         self.pkg_name = name
-        pkg_node = self.mk_node('package',name)
+        name_node = self.mk_text_node('name', name)
+        pkg_node = self.doc.createElement("package")
+        pkg_node.appendChild(name_node)
+
         root = self.get_doc_root()
-        self.get_doc_root().appendChild(pkg_node)
+        root.appendChild(pkg_node)
+
+        #顺便增加结果字段
+        result = self.doc.createElement("result")
+        root.appendChild(result)
+
 
     """
     def __init__(self):
@@ -54,7 +75,7 @@ class XMLReport(object):    #Singleton
         self.doc.appendChild(root)
     """
 
-    def mk_node(self,name,text):
+    def mk_text_node(self, name, text):
         node = self.doc.createElement(name)
 
         self.add_text(node,text)
@@ -63,9 +84,9 @@ class XMLReport(object):    #Singleton
 
     def set_host_info(self,IP,port,user):
 
-        IP_node = self.mk_node('IP', IP)
-        port_node = self.mk_node('port', port)
-        user_node = self.mk_node('user', user)
+        IP_node = self.mk_text_node('IP', IP)
+        port_node = self.mk_text_node('port', port)
+        user_node = self.mk_text_node('user', user)
 
         host = self.doc.createElement("host")
 
@@ -83,8 +104,6 @@ class XMLReport(object):    #Singleton
 
     def get_doc_root(self):
         root = self.doc.documentElement
-        print ("Ffff")
-        print(root.nodeName)
         return root
 
     def append_group(self):

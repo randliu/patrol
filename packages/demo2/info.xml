@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <pkg>
-    <name>demo patrol pkg 2</name>
+    <name>demo patrol pkg2</name>
     <package_name>demo2</package_name>
-
-    <description>另一个以主机操作系统检查为例，示意巡检包的使用与开发</description>
+    <description>以主机操作系统检查为例，示意巡检包的使用与开发</description>
     <version>1.0</version>
     <engine>
         <version>1.0</version>
@@ -12,22 +11,28 @@
     <company>xxxx</company>
     <signature>0x743F67527FF4EB211528E7e7AE041888f70D1C75</signature>
     <patrol>
-        <group>二组内存检查
+        <group><name>内存检查</name>
             <item>
-                <name>1内存使用情况检查</name>
+                <name>内存使用情况检查</name>
                 <description>检查主机内存使用情况,超过80的使用率即为不合格</description>
                 <type>boolean</type>
                 <func>check_mem_swap_usage</func>
             </item>
-        </group>
-        <group>硬盘检查
             <item>
-                <name>2列举分区</name>
+                <name>swap使用情况检查</name>
+                <description>检查主机swap使用情况,超过0的使用率即为不合格</description>
+                <type>boolean</type>
+                <func>check_mem_usage</func>
+            </item>
+        </group>
+        <group><name>硬盘检查</name>
+            <item>
+                <name>列举分区</name>
                 <description>列举当前的分区，以及分区使用情况，供人工判断</description>
                 <type>manual</type>
             </item>
         </group>
-        <group>进程检查</group>
-        <group>网络检查</group>
+        <group><name>进程检查</name></group>
+        <group><name>网络检查</name></group>
     </patrol>
 </pkg>
