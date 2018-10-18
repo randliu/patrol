@@ -6,18 +6,15 @@ import sys
 import importlib
 import importlib.util
 import client
-import string
 from xml.dom import minidom
-#from xml.etree import ElementTree as ET
-from string import Template
+from report import XMLReport
 
 
-report_xml = None
 
 
 #root.setAttribute(.setAttribute('xsi:noNamespaceSchemaLocation','bookstore.xsd')#引用本地XML Schema)
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s] %(levelname)s [%(funcName)s: %(filename)s, %(lineno)d] %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     filemode='a')
@@ -26,7 +23,7 @@ base_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 check_module = None
 
-host = None
+IP = None
 port = None
 user = None
 passwd = None
@@ -55,13 +52,13 @@ def get_lst_xml_url():
 
 
 def ON_pkg_name(content):
-    global report_xml
-    pkg_name_node = report_xml.createElement("package")
-    text = report_xml.createTextNode(content)
-    pkg_name_node.appendChild(text)
-    #root.appendChild(pkg_name_node)
-    root = report_xml.documentElement
-    root.appendChild(pkg_name_node)
+    #global report_xml
+    report_xml = XMLReport()
+    print("ON PKG NAME")
+    print(report_xml.to_xml())
+    report_xml.set_pkg_name(content)
+
+
 
 
 
@@ -88,24 +85,10 @@ def exec_check_func(func_name):
     exec(s)
 
 
-
-
-def dump_xml(doc):
-
-    r = doc.documentElement
-    print(r.toxml())
-    pkg = r.childNodes[0]
-    print(pkg.toxml())
-    file_name = pkg.childNodes[0].data
-    print(file_name)
-    with open("%s.xml" % file_name.replace(" ","_"),'w') as fx:
-        doc.writexml(fx, newl='\n', indent='\t', addindent='\t', encoding='UTF-8')
-
 if (__name__ == "__main__"):
 
-    host = sys.argv[1]
+    IP = sys.argv[1]
     port = sys.argv[2]
-
     user = sys.argv[3]
     passwd = sys.argv[4]
 
@@ -113,14 +96,10 @@ if (__name__ == "__main__"):
 
     lst_xml_url=get_lst_xml_url()
     for xml_url in lst_xml_url:
-        report_xml = minidom.Document()
-        #report_xml.documentElement
-        root = report_xml.createElement("Report")
-        root.setAttribute('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance")
-        report_xml.appendChild(root)
-
-
-
+        report = XMLReport()
+        report.init()
+        report.set_host_info(IP, port, user)
+        print(report.to_xml())
         logging.debug("to process xml:"+xml_url)
 
         # 创建一个 XMLReader
@@ -128,27 +107,15 @@ if (__name__ == "__main__"):
         parser.dic_url_handler['pkg.name'] =ON_pkg_name
         parser.dic_url_handler['pkg.package_name'] = load_check_package
         parser.dic_url_handler['pkg.patrol.group.item.func'] = exec_check_func
-        client.connect_host(host, port, user, passwd)
+        client.connect_host(IP, port, user, passwd)
         parser.parse(xml_url)
         client.close()
 
 
-
-
         logging.debug("end processing:"+xml_url)
-        host_tag = report_xml.createElement("host")
-        host_ip = report_xml.createTextNode(host)
-        host_tag.appendChild(host_ip)
-        root.appendChild(host_tag)
-
-        port_tag = report_xml.createElement("port")
-        port_data = report_xml.createTextNode(port)
-        port_tag.appendChild(port_data)
-        root.appendChild(port_tag)
 
 
-        print(report_xml.toxml('utf-8'))
-        dump_xml(report_xml)
-
+        print(report.to_xml())
+        report.dump_xml()
 
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<host>
+			<IP>192.168.170.182</IP>
+			<port>22</port>
+			<user>rand</user>
+		</host>
+		<package>demo patrol pkg 2</package>
+	</report>
