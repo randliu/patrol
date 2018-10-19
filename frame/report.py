@@ -6,10 +6,10 @@ class XMLReport(object):    #Singleton
     def __new__(cls):
         # 关键在于这，每一次实例化的时候，我们都只会返回这同一个instance对象
         if not hasattr(cls, 'instance'):
-            logging.info("new a XMLReport")
+            logging.debug("new a XMLReport")
             cls.instance = super(XMLReport, cls).__new__(cls)
         else:
-            logging.info("use old XMLReport")
+            logging.debug("use old XMLReport")
         return cls.instance
 
     def get_pkg_name(self):
@@ -98,9 +98,6 @@ class XMLReport(object):    #Singleton
         root = self.get_doc_root()
         root.appendChild(host)
 
-        print("FDFD")
-        print(user_node.parentNode.nodeName)
-        print(self.doc.toxml())
 
     def get_doc_root(self):
         root = self.doc.documentElement

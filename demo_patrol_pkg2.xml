@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<host>
-			<IP>192.168.170.182</IP>
+			<IP>192.168.170.150</IP>
 			<port>22</port>
 			<user>rand</user>
 		</host>
@@ -22,7 +22,7 @@
 					<name>swap使用情况检查</name>
 					<description>检查主机swap使用情况,超过0的使用率即为不合格</description>
 					<isPassed>False</isPassed>
-					<msg>swap:0,free:898904,buf:53568,cache:714020</msg>
+					<msg>swap:0,free:291060,buf:160828,cache:1159456</msg>
 				</item>
 			</group>
 			<group>

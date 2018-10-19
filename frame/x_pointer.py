@@ -91,7 +91,7 @@ class PointerHandler(xml.sax.ContentHandler):
         try:
             if self.dic_pointer_handler.__contains__(self.cur_path):
                 handler = self.dic_pointer_handler[self.cur_path]
-                print("handler name:"+handler.__name__)
+                #print("handler name:"+handler.__name__)
                 return handler(content)
             else:
                 return None

@@ -29,6 +29,13 @@ user = None
 passwd = None
 
 
+def get_xml_path(pkg_name):
+    pkgs_dir = os.path.join(base_dir,'packages/')
+    pkg_dir = os.path.join(pkgs_dir,pkg_name)
+
+    xml_path = os.path.join(pkg_dir,"info.xml")
+    #print(xml_path)
+    return [xml_path]
 
 def get_lst_xml_url():
     lst_xml_url=[]
@@ -138,21 +145,26 @@ def append_pkg_description(desc):
     pkg = report.get_doc_root().getElementsByTagName('package')[-1]
     pkg.appendChild(description)
 
+
+#python frame/x.py 192.168.170.182 22 rand abc123 demo1
 if (__name__ == "__main__"):
 
     IP = sys.argv[1]
     port = sys.argv[2]
     user = sys.argv[3]
     passwd = sys.argv[4]
+    package = sys.argv[5]
 
     logging.info(base_dir)
 
-    lst_xml_url=get_lst_xml_url()
-    for xml_url in lst_xml_url:
+    #lst_xml_url=get_lst_xml_url()
+    lst_xml_path = get_xml_path(package)
+
+    for xml_url in lst_xml_path:
         report = XMLReport()
         report.init()
         report.set_host_info(IP, port, user)
-        print(report.to_xml())
+        #print(report.to_xml())
         logging.debug("to process xml:"+xml_url)
 
         # 创建一个 XMLReader
@@ -174,7 +186,7 @@ if (__name__ == "__main__"):
         logging.debug("end processing:"+xml_url)
 
 
-        print(report.to_xml())
+        #print(report.to_xml())
         report.dump_xml()
 
 
